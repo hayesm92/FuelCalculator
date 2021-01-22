@@ -1,0 +1,30 @@
+.accordion-header{
+    background-color: rgb(236, 236, 236);
+}
+
+.accordion-body{
+    background-color: rgba(160, 160, 160, 0.541);
+    
+}
+
+.accordion{
+    margin-top: 5%;
+    
+}
+
+#setup-btn{
+    margin-bottom: 3px;
+}
+
+#setup{
+    background-color: rgba(3, 3, 3, 0.719);
+    border-radius: 2px;;
+    padding: 10px;
+    margin: 5px;
+    
+}
+
+h4{
+    text-align: center;
+    color: white;
+}
