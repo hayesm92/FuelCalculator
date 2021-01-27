@@ -1,15 +1,36 @@
 #calculator{
     background-color: rgba(3, 3, 3, 0.719);
     border-radius: 2px;;
-    padding: 15px;
+    padding: 10px;
     
 }
 
-#label-headings{
+.label-headings{
     color: white;
     margin-right: 5px;
 }
 
+
 .button-group{
     width: 100%;
+    margin-bottom: -6px;
+}
+
+#lap-heading{
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+
+.average-time{
+    display: inline-flex;
+    
+}
+
+#minute-time{
+    width: 65%;
+    margin-right: 5px;
+}
+
+#second-time{
+    width: 85%;
 }

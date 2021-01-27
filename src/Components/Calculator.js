@@ -8,6 +8,8 @@ import accCars from '../Components/carsWithLiters'
 import Setup from './Setup'
 import './Calculator.css'
 
+const minutes = Array.from(new Array(2), (x, i) => i + 1);
+const seconds = Array.from(new Array(60), (x, i) => i + 1);
 const Calculator = ({
     car,
     track,
@@ -47,7 +49,7 @@ const Calculator = ({
 
     return (
 
-        <div className = 'animate__animated animate__fadeIn' id='calculator' style={{ margin: '30px' }}>
+        <div className='animate__animated animate__fadeIn' id='calculator' style={{ margin: '10px' }}>
             <div>
                 {/* //TrackDropdown */}
                 <div>
@@ -60,14 +62,14 @@ const Calculator = ({
                             </select>
                             <label for="floatingSelect">Select Track</label>
                         </div>
-                        <ButtonGroup className = 'button-group' size="sm" aria-label="Basic example">
+                        <ButtonGroup className='button-group' size="sm" aria-label="Basic example">
                             <Button variant="secondary" onClick={onButtonClickGT3}>GT3</Button>
                             <Button variant="secondary" onClick={onButtonClickGT4}>GT4</Button>
                             <Button variant="secondary" onClick={onButtonClickST}>ST</Button>
                             <Button variant="secondary" onClick={onButtonClickCup}>CUP</Button>
                         </ButtonGroup>
                         <div class="form-floating">
-                            <select name= 'car'class="form-select" id="floatingSelect" onChange={onCarSelect} aria-label="Floating label select example .form-select-sm" required>
+                            <select name='car' class="form-select" id="floatingSelect car-heading" onChange={onCarSelect} aria-label="Floating label select example .form-select-sm" required>
                                 {carValue.map(car => {
                                     return <option>{car}</option>
                                 })}
@@ -76,18 +78,34 @@ const Calculator = ({
                         </div>
 
 
-                        <label id='label-headings'> Average Lap Time</label><br></br>
-                        <input name= 'minute'type="number" id='minute' placeholder='Min' max='10' min='0' onChange = {handleChange}></input>
-                        <input name = 'second' type="number" id='second' placeholder='Sec' max='60' min='0'></input>
+                        <label className='label-headings' id='lap-heading'> Average Lap Time</label><br></br>
+                        {/* <input name= 'minute'type="number" id='minute' placeholder='Min' max='10' min='0' onChange = {handleChange}></input>
+                        <input name = 'second' type="number" id='second' placeholder='Sec' max='60' min='0'></input> */}
+                        <div className = 'average-time'>
+                            <select id = 'minute-time' class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                <option></option>
+                                {minutes.map(minute =>{
+                                    return <option>{minute}</option>
+                                })}
+                            </select>
+                            <select id = 'second-time' class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                            <option></option>
+                                {seconds.map(second =>{
+                                    return <option>{second}</option>
+                                })}
+                            </select>
+                        </div>
+                        
                         {/* //CarDropdown */}
 
                         {/* //Hour Slider */}
                         <Form.Group controlId="formBasicRangeCustom">
-                            <Form.Label id='label-headings'>Hours</Form.Label>
+                            <Form.Label className='label-headings' id='hours-heading'>Hours</Form.Label>
                             {/* Time select shortcuts */}
-                            <ButtonGroup className = 'button-group'size="sm" aria-label="Basic example">
+                            <ButtonGroup className='button-group' size="sm" aria-label="Basic example">
                                 <Button variant="secondary" onClick={onButtonClickThree}>3</Button>
                                 <Button variant="secondary" onClick={onButtonClickSix}>6</Button>
+                                <Button variant="secondary" >9</Button>
                                 <Button variant="secondary" onClick={onButtonClickTwelve}>12</Button>
                                 <Button variant="secondary" onClick={onButtonClickTwentyFour}>24</Button>
                             </ButtonGroup>
@@ -96,9 +114,10 @@ const Calculator = ({
                         </Form.Group>
                         {/* //Minute Slider */}
                         <Form.Group controlId="formBasicRangeCustom">
-                            <Form.Label id='label-headings'>Minutes</Form.Label>
+                            <Form.Label className='label-headings'id='minutes-heading'>Minutes</Form.Label>
                             {/* Time select shortcuts */}
-                            <ButtonGroup className = 'button-group' size="sm" aria-label="Basic example">
+                            <ButtonGroup className='button-group' size="sm" aria-label="Basic example">
+                                <Button variant="secondary" >10</Button>
                                 <Button variant="secondary" onClick={onButtonClick20}>20</Button>
                                 <Button variant="secondary" onClick={onButtonClick30}>30</Button>
                                 <Button variant="secondary" onClick={onButtonClick45}>45</Button>
