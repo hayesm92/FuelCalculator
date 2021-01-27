@@ -14,37 +14,16 @@ import Particles from "react-tsparticles"
 
 
 import { BrowserRouter as Router } from "react-router-dom";
-import {
-  MDBNavbar,
-  MDBNavbarBrand,
-  MDBNavbarNav,
-  MDBNavItem,
-  MDBNavLink,
-  MDBNavbarToggler,
-  MDBCollapse,
-  MDBMask,
-  MDBRow,
-  MDBCol,
-  MDBBtn,
-  MDBView,
-  MDBContainer,
-  MDBFormInline,
-  MDBAnimation,
-  MDBFooter
-} from "mdbreact";
 import "./index.css";
 import Setup from './Components/Setup';
 
-const particlesOptions = {
-  particles: {
-    number: {
-      value: 120,
-      density: {
-        enable: true,
-        value_area: 800
-      }
-    }
-  }
+const validateForm = (errors) => {
+  let valid = true;
+  Object.values(errors).forEach(
+    // if we have an error string set valid to false
+    (val) => val.length > 0 && (valid === false)
+  );
+  return valid;
 }
 
 
@@ -68,6 +47,12 @@ class App extends React.Component {
       mainSelection: '',
       route: 'home',
       collapsed: false,
+      errors: {
+        trackSelection: '',
+        carSelection: '',
+        minuteValue: '',
+        hourValue: '',
+      }
     }
     this.onCarSelect = this.onCarSelect.bind(this);
     this.onTrackSelect = this.onTrackSelect.bind(this);
@@ -218,6 +203,45 @@ class App extends React.Component {
     // console.log(this.state.carLiters)
   }
 
+  handleChange = (e) =>{
+    e.preventDefault();
+    const {name,value} = e.target
+    let errors = this.state.errors;
+
+    switch (name){
+      case 'minute':
+        errors.trackSelection = value.length < 1
+        ? 'Please input number'
+        : '';
+        break;
+      case 'second':
+        errors.trackSelection = value.length < 1
+        ? 'Please input number'
+        : '';
+        break;
+      case 'car':
+        errors.trackSelection = value.length < 1
+        ? 'Please select a car'
+        : '';
+        break;
+      case 'track':
+        errors.trackSelection = value.length < 1
+        ? 'Please select a track'
+        : '';
+        break;
+        
+    }
+    this.setState({errors, [name]: value});
+  }
+
+  handleSubmit =(e) => {
+    e.preventDefault();
+    if(validateForm(this.state.errors)){
+      console.info('valid form')
+    } else{
+      console.error('invalid form')
+    }
+  }
 
   render() {
     const accTracks = ['Barcelona', 'Brands Hatch', 'Hungaroring', 'Kyalami', 'Laguna Seca', 'Misano', 'Monza', 'Mount Panorama', 'Nurburgring', 'Paul Ricard', 'Silverstone', 'Spa Francorchamps', 'Suzuka', 'Zandvoort', 'Zolder'];
@@ -289,6 +313,9 @@ class App extends React.Component {
               usersAverageLapTime={this.state.usersAverageLapTime}
               trackSelection={this.state.trackSelection}
               carSelection={this.state.carSelection}
+              handleChange={this.handleChange}
+              handleSubmit = {this.handleSubmit}
+              
             />
           </div>
 

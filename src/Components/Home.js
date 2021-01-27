@@ -4,13 +4,13 @@ import github from '../Pictures/GitHub-Mark/PNG/GitHub-Mark-Light-32px.png'
 import linkedin from '../Pictures/LinkedIn-Logos/LI-In-Bug.png'
 
 
-const Home = ({ onMainSelectionClick, onSelectionSubmit }) => {
+const Home = ({ onMainSelectionClick, onSelectionSubmit, checkError }) => {
     return (
         <div>
             <div className='box' >
                 <div className='title-selection'>
                     <h1 className='animate__animated animate__fadeInDown'>Fuel Calculator</h1>
-                    <select class="form-select form-select-sm animate__animated animate__fadeInUp " aria-label=".form-select-sm example" onChange={onMainSelectionClick}>
+                    <select class="form-select form-select-sm animate__animated animate__fadeInUp " aria-label=".form-select-sm example" onChange={onMainSelectionClick} required>
                         <option selected>Choose a simulator</option>
                         <option value="acc">Assetto Corsa Competizione</option>
                         <option value="ac">Assetto Corsa</option>

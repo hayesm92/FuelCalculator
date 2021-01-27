@@ -62,7 +62,7 @@ content: '';
 .btn{
     width: 50%;
     margin-bottom: 5%;
-  
+    background-color: blueviolet !important;
 }
 .logo-group{
     list-style: none;

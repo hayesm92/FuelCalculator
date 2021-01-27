@@ -37,7 +37,9 @@ const Calculator = ({
     carLiters,
     estimatedLiters,
     usersAverageLapTime,
-    onSubmit
+    onSubmit,
+    handleChange,
+    handleSubmit
 
     // liters, 
 }) => {
@@ -51,8 +53,7 @@ const Calculator = ({
                 <div>
                     <div id='userSelection' style={{}}>
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelect" onChange={onTrackSelect} aria-label="Floating label select example .form-select-sm">
-                                
+                            <select name='track' class="form-select" id="floatingSelect" onChange={onTrackSelect} aria-label="Floating label select example .form-select-sm" required>
                                 {trackValues.map(track => {
                                     return <option> {track}</option>
                                 })}
@@ -66,7 +67,7 @@ const Calculator = ({
                             <Button variant="secondary" onClick={onButtonClickCup}>CUP</Button>
                         </ButtonGroup>
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelect" onChange={onCarSelect} aria-label="Floating label select example .form-select-sm">
+                            <select name= 'car'class="form-select" id="floatingSelect" onChange={onCarSelect} aria-label="Floating label select example .form-select-sm" required>
                                 {carValue.map(car => {
                                     return <option>{car}</option>
                                 })}
@@ -76,20 +77,8 @@ const Calculator = ({
 
 
                         <label id='label-headings'> Average Lap Time</label><br></br>
-
-                        {/* <div class="form-floating">
-                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example .form-select-sm">
-                            {
-                            secondArr.map(num =>{
-                                return <option>num</option>
-                                    })}
-                            </select>
-                            <label for="floatingSelect">Select Track</label>
-                        </div> */}
-
-
-                        <input type="number" id='minute' placeholder='Min' max='10' min='0'></input>
-                        <input type="number" id='second' placeholder='Sec' max='60' min='0'></input>
+                        <input name= 'minute'type="number" id='minute' placeholder='Min' max='10' min='0' onChange = {handleChange}></input>
+                        <input name = 'second' type="number" id='second' placeholder='Sec' max='60' min='0'></input>
                         {/* //CarDropdown */}
 
                         {/* //Hour Slider */}
@@ -120,7 +109,7 @@ const Calculator = ({
                         </Form.Group>
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <button type="button" class="btn btn-primary" onClick={calculateFuel} >Calculate</button>
+                        <button type="submit" class="btn btn-primary" onClick={calculateFuel} >Calculate</button>
                     </div>
 
                     <table class="table table-dark table-sm">
