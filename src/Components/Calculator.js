@@ -60,7 +60,7 @@ const Calculator = ({
                             </select>
                             <label for="floatingSelect">Select Track</label>
                         </div>
-                        <ButtonGroup size="sm" aria-label="Basic example">
+                        <ButtonGroup className = 'button-group' size="sm" aria-label="Basic example">
                             <Button variant="secondary" onClick={onButtonClickGT3}>GT3</Button>
                             <Button variant="secondary" onClick={onButtonClickGT4}>GT4</Button>
                             <Button variant="secondary" onClick={onButtonClickST}>ST</Button>
@@ -85,7 +85,7 @@ const Calculator = ({
                         <Form.Group controlId="formBasicRangeCustom">
                             <Form.Label id='label-headings'>Hours</Form.Label>
                             {/* Time select shortcuts */}
-                            <ButtonGroup size="sm" aria-label="Basic example">
+                            <ButtonGroup className = 'button-group'size="sm" aria-label="Basic example">
                                 <Button variant="secondary" onClick={onButtonClickThree}>3</Button>
                                 <Button variant="secondary" onClick={onButtonClickSix}>6</Button>
                                 <Button variant="secondary" onClick={onButtonClickTwelve}>12</Button>
@@ -98,7 +98,7 @@ const Calculator = ({
                         <Form.Group controlId="formBasicRangeCustom">
                             <Form.Label id='label-headings'>Minutes</Form.Label>
                             {/* Time select shortcuts */}
-                            <ButtonGroup size="sm" aria-label="Basic example">
+                            <ButtonGroup className = 'button-group' size="sm" aria-label="Basic example">
                                 <Button variant="secondary" onClick={onButtonClick20}>20</Button>
                                 <Button variant="secondary" onClick={onButtonClick30}>30</Button>
                                 <Button variant="secondary" onClick={onButtonClick45}>45</Button>
