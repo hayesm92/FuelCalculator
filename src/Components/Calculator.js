@@ -127,7 +127,7 @@ const Calculator = ({
                             <Form.Control type="text" placeholder="" value={minuteValue} readOnly />
                         </Form.Group>
                     </div>
-                    <div style={{ textAlign: 'center' }}>
+                    <div style={{ textAlign: 'center' , marginBottom: '10px' }}>
                         <button type="submit" class="btn btn-primary" onClick={calculateFuel} >Calculate</button>
                     </div>
 
