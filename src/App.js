@@ -182,7 +182,7 @@ class App extends React.Component {
   }
 
   onSubmit = () => {
-    fetch('http://localhost:3000/post', {
+    fetch('https://polar-badlands-83667.herokuapp.com/', {
       method: 'post',
       headers: {
         'content-type': 'application/json',
