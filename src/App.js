@@ -10,21 +10,10 @@ import Display from './Components/Display';
 import Footer from './Components/Footer';
 import accCars from './Components/carsWithLiters'
 import Home from './Components/Home'
-import Particles from "react-tsparticles"
-
-
 import { BrowserRouter as Router } from "react-router-dom";
 import "./index.css";
 import Setup from './Components/Setup';
 
-const validateForm = (errors) => {
-  let valid = true;
-  Object.values(errors).forEach(
-    // if we have an error string set valid to false
-    (val) => val.length > 0 && (valid === false)
-  );
-  return valid;
-}
 
 
 class App extends React.Component {
@@ -43,16 +32,12 @@ class App extends React.Component {
       estimatedLiters: '',
       carLiters: '',
       usersAverageLapTime: '',
+      lapTime: '',
       recommendedLiters: '',
       mainSelection: '',
       route: 'home',
       collapsed: false,
-      errors: {
-        trackSelection: '',
-        carSelection: '',
-        minuteValue: '',
-        hourValue: '',
-      }
+      
     }
     this.onCarSelect = this.onCarSelect.bind(this);
     this.onTrackSelect = this.onTrackSelect.bind(this);
@@ -169,9 +154,10 @@ class App extends React.Component {
     })
   }
 
-  setTrack = (i) => {
+  setCarTrack = () => {
     this.setState({
-      tracks: i,
+      track: this.state.trackSelection,
+      car: this.state.carSelection
     })
   }
 
@@ -181,11 +167,13 @@ class App extends React.Component {
     })
   }
 
+
   onSubmit = () => {
     fetch('https://polar-badlands-83667.herokuapp.com/liters', {
       method: 'post',
       headers: {
         'content-type': 'application/json',
+        
       },
       body: JSON.stringify(({
         car: this.state.carSelection,
@@ -194,54 +182,45 @@ class App extends React.Component {
     })
       .then(resp => resp.json())
       .then(liters => {
+        console.log('Hello', liters);
         this.setState({
           carLiters: liters,
-
         })
       })
       .catch(err => console.log(err))
-    // console.log(this.state.carLiters)
   }
 
-  handleChange = (e) =>{
-    e.preventDefault();
-    const {name,value} = e.target
-    let errors = this.state.errors;
 
-    switch (name){
-      case 'minute':
-        errors.trackSelection = value.length < 1
-        ? 'Please input number'
-        : '';
-        break;
-      case 'second':
-        errors.trackSelection = value.length < 1
-        ? 'Please input number'
-        : '';
-        break;
-      case 'car':
-        errors.trackSelection = value.length < 1
-        ? 'Please select a car'
-        : '';
-        break;
-      case 'track':
-        errors.trackSelection = value.length < 1
-        ? 'Please select a track'
-        : '';
-        break;
-        
+  calculateFuel = () => {
+    const averageLapMinute = Number(document.getElementById('minute-time').value) * 60;
+    const averageLapSecond = Number(document.getElementById('second-time').value);
+    const lapTime = (averageLapMinute / 60) + ' min ' + '' + averageLapSecond + ' secs';
+    const totalTime = averageLapSecond + averageLapMinute;
+    
+    this.setState({
+      usersAverageLapTime: lapTime
+    })
+
+    const estimatedLaps = (((this.state.hourValue * 60) * 60) + (this.state.minuteValue * 60)) / totalTime;
+    const estimatedLiters2 = Math.round(estimatedLaps * this.state.carLiters);
+    
+    this.setState({
+      estimatedLiters: estimatedLiters2,
+    })
+  }
+
+  buttonPress = () => {
+    try{
+      this.setCarTrack();
+      this.onSubmit();
+      this.calculateFuel();
     }
-    this.setState({errors, [name]: value});
+   catch (err){
+    console.log(err)
+   }
   }
 
-  handleSubmit =(e) => {
-    e.preventDefault();
-    if(validateForm(this.state.errors)){
-      console.info('valid form')
-    } else{
-      console.error('invalid form')
-    }
-  }
+
 
   render() {
     const accTracks = ['Barcelona', 'Brands Hatch', 'Hungaroring', 'Kyalami', 'Laguna Seca', 'Misano', 'Monza', 'Mount Panorama', 'Nurburgring', 'Paul Ricard', 'Silverstone', 'Spa Francorchamps', 'Suzuka', 'Zandvoort', 'Zolder'];
@@ -250,26 +229,6 @@ class App extends React.Component {
     const accGTFour = ['Mercedes AMG GT4', 'Cheverolet Camaro GT4']
     const iracingCars = ['ir1', 'ir2', 'ir3']
     const { route } = this.state;
-
-    const calculateFuel = () => {
-      this.onSubmit();
-      const averageLapMinute = Number(document.getElementById('minute').value);
-      const averageLapSecond = Number(document.getElementById('second').value);
-      const averageLapTime = Number(averageLapMinute) + '.' + Number(averageLapSecond);
-      const numAverageLapTime = Number(averageLapTime);
-      this.setState({
-        usersAverageLapTime: numAverageLapTime,
-      })
-      setTimeout(() => {
-        const estimatedLaps = ((this.state.hourValue * 60) + this.state.minuteValue) / this.state.usersAverageLapTime;
-        const estimatedLiters2 = Math.round(estimatedLaps * this.state.carLiters)
-        this.setState({
-          estimatedLiters: (estimatedLiters2),
-        })
-
-      }, 900)
-    }
-
 
     const overlay = (
       <div
@@ -307,15 +266,17 @@ class App extends React.Component {
               trackValue={this.state.trackValue}
               carValue={this.state.carValue}
               trackValues={accTracks}
-              calculateFuel={calculateFuel}
+              buttonPress={this.buttonPress}
               estimatedLiters={this.state.estimatedLiters}
               carLiters={this.state.carLiters}
               usersAverageLapTime={this.state.usersAverageLapTime}
               trackSelection={this.state.trackSelection}
               carSelection={this.state.carSelection}
               handleChange={this.handleChange}
-              handleSubmit = {this.handleSubmit}
-              
+            
+              car={this.state.car}
+              track={this.state.track}
+
             />
           </div>
 
