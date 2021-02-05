@@ -25,6 +25,7 @@ class App extends React.Component {
       hourValue: '', //Used by Hour Slider
       trackValues: '',
       carValue: [],
+      accCarsGT3: '',
       track: '',
       car: '',
       trackSelection: 'Barcelona',
@@ -35,6 +36,8 @@ class App extends React.Component {
       lapTime: '',
       recommendedLiters: '',
       mainSelection: '',
+      finalEstimate: '',
+      finalLiters: '',
       route: 'home',
       collapsed: false,
       
@@ -132,10 +135,8 @@ class App extends React.Component {
     })
   }
   onButtonClickGT3 = (e) => {
-    const accCarsGT3 = ['AMR V8 Vantage GT3', 'Audi R8 LMS Evo', 'Bentley Continental GT3', 'BMW M6 GT3', 'Ferrari 488 GT3', 'Honda NSX GT3 Evo',
-      'Lamborghini Huracan GT3 Evo', 'Lexus RC F GT3', 'McLaren 720S GT3', 'Mercedes-AMG GT3', 'Nissan GT-R Nismo GT3', 'Porsche 991II GT3']
-    this.setState({
-      carValue: accCarsGT3
+  this.setState({
+      carValue: this.state.accCarsGT3
     })
   }
 
@@ -162,14 +163,24 @@ class App extends React.Component {
   }
 
   onRouteChange = (route) => {
+    if(this.state.route === 'home'){
+      this.clearState();
+    }
     this.setState({
       route: route,
+    })
+    
+  }
+  displayResults = () => {
+    this.setState({
+      finalLiters: this.state.carLiters,
+      finalEstimate: this.state.estimatedLiters
     })
   }
 
 
-  onSubmit = () => {
-    fetch('https://polar-badlands-83667.herokuapp.com/liters', {
+  async onSubmit (){
+    await fetch('https://polar-badlands-83667.herokuapp.com/liters', {
       method: 'post',
       headers: {
         'content-type': 'application/json',
@@ -182,50 +193,73 @@ class App extends React.Component {
     })
       .then(resp => resp.json())
       .then(liters => {
-        console.log('Hello', liters);
         this.setState({
           carLiters: liters,
         })
+        console.log(liters)
       })
       .catch(err => console.log(err))
   }
 
 
-  calculateFuel = () => {
+  async calculateFuel() {
+    await this.onSubmit();
     const averageLapMinute = Number(document.getElementById('minute-time').value) * 60;
     const averageLapSecond = Number(document.getElementById('second-time').value);
     const lapTime = (averageLapMinute / 60) + ' min ' + '' + averageLapSecond + ' secs';
     const totalTime = averageLapSecond + averageLapMinute;
-    
     this.setState({
       usersAverageLapTime: lapTime
     })
 
     const estimatedLaps = (((this.state.hourValue * 60) * 60) + (this.state.minuteValue * 60)) / totalTime;
     const estimatedLiters2 = Math.round(estimatedLaps * this.state.carLiters);
-    
     this.setState({
       estimatedLiters: estimatedLiters2,
     })
-  }
-
-  buttonPress = () => {
-    try{
+      this.displayResults();
       this.setCarTrack();
-      this.onSubmit();
-      this.calculateFuel();
-    }
-   catch (err){
-    console.log(err)
-   }
+  }
+buttonPress = () => {
+   this.calculateFuel();
   }
 
+clearState = () => {
+  this.setState({
+      minuteValue: '', //Used by Minute Slider
+      hourValue: '', //Used by Hour Slider
+      trackValues: '',
+      carValue: [],
+      track: '',
+      car: '',
+      trackSelection: 'Barcelona',
+      carSelection: 'AMR V8 Vantage GT3',
+      estimatedLiters: '',
+      carLiters: '',
+      usersAverageLapTime: '',
+      lapTime: '',
+      recommendedLiters: '',
+      mainSelection: '',
+      finalEstimate: '',
+      finalLiters: '',
+  })
+}
+
+  
+
+componentDidMount(){
+  fetch('https://polar-badlands-83667.herokuapp.com/cars')
+  .then(data => data.json())
+  .then(carList =>
+    this.setState({
+      accCarsGT3: carList,
+    }))
+  }
 
 
   render() {
     const accTracks = ['Barcelona', 'Brands Hatch', 'Hungaroring', 'Kyalami', 'Laguna Seca', 'Misano', 'Monza', 'Mount Panorama', 'Nurburgring', 'Paul Ricard', 'Silverstone', 'Spa Francorchamps', 'Suzuka', 'Zandvoort', 'Zolder'];
-    const accCarsGT3 = ['AMR V8 Vantage GT3', 'Audi R8 LMS Evo', 'Bentley Continental GT3', 'BMW M6 GT3', 'Ferrari 488 GT3', 'Honda NSX GT3 Evo',
-      'Lamborghini Huracan GT3 Evo', 'Lexus RC F GT3', 'McLaren 720S GT3', 'Mercedes-AMG GT3', 'Nissan GT-R Nismo GT3', 'Porsche 991II GT3']
+   
     const accGTFour = ['Mercedes AMG GT4', 'Cheverolet Camaro GT4']
     const iracingCars = ['ir1', 'ir2', 'ir3']
     const { route } = this.state;
@@ -245,7 +279,7 @@ class App extends React.Component {
         {this.state.route === 'acc'
           ?
           <div>
-            <NavBar onRouteChange={this.onRouteChange}></NavBar>
+            <NavBar onRouteChange={this.onRouteChange} clearState = {this.clearState}></NavBar>
             <Calculator
               onHourSliderChange={this.onHourSliderChange}
               onMinuteSliderChange={this.onMinuteSliderChange}
@@ -273,7 +307,8 @@ class App extends React.Component {
               trackSelection={this.state.trackSelection}
               carSelection={this.state.carSelection}
               handleChange={this.handleChange}
-            
+              finalEstimate = {this.state.finalEstimate}
+              finalLiters = {this.state.finalLiters}
               car={this.state.car}
               track={this.state.track}
 

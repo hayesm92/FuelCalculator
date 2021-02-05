@@ -20,7 +20,7 @@ const Home = ({ onMainSelectionClick, onSelectionSubmit, checkError }) => {
                         <option value="rf">rFactor</option>
                     </select>
                     <div style={{ marginTop: '5%' }}>
-                        <button type="button" class="btn btn-primary btn-lg " onClick={onSelectionSubmit}>Go</button>
+                        <button type="button" class="btn btn-primary btn-lg btn-red " onClick={onSelectionSubmit}>Go</button>
                     </div>
                     <div>
                     <ul className='logo-group'>

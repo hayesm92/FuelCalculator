@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form'
 import { FormControl } from 'react-bootstrap'
 import './NavBar.css'
 
-const NavBar = ({onRouteChange}) => {
+const NavBar = ({onRouteChange, clearState}) => {
     return (
         <div>
             <nav class="navbar navbar-expand-md navbar-light" >

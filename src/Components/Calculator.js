@@ -6,6 +6,7 @@ import accCars from '../Components/carsWithLiters'
 import Setup from './Setup'
 import './Calculator.css'
 
+
 const minutes = Array.from(new Array(2), (x, i) => i + 1);
 const seconds = Array.from(new Array(59), (x, i) => i + 1);
 function prependZero(num) {
@@ -52,7 +53,9 @@ const Calculator = ({
     handleChange,
     handleSubmit,
     buttonPress,
-    setCarTrack
+    setCarTrack,
+    finalLiters,
+    finalEstimate
 
     // liters, 
 }) => {
@@ -74,11 +77,13 @@ const Calculator = ({
                             <label for="floatingSelect">Select Track</label>
                         </div>
                         <ButtonGroup className='button-group' size="sm" aria-label="Basic example">
-                            <Button variant="secondary" onClick={onButtonClickGT3}>GT3</Button>
-                            <Button variant="secondary" onClick={onButtonClickGT4}>GT4</Button>
-                            <Button variant="secondary" onClick={onButtonClickST}>ST</Button>
-                            <Button variant="secondary" onClick={onButtonClickCup}>CUP</Button>
+                            <Button className = 'btn-orange' variant="secondary" onClick={onButtonClickGT3}>GT3</Button>
+                            <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickGT4}>GT4</Button>
+                            <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickST}>ST</Button>
+                            <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickCup}>CUP</Button>
                         </ButtonGroup>
+
+                
                         <div class="form-floating">
                             <select name='car' class="form-select" id="floatingSelect car-heading" onChange={onCarSelect} aria-label="Floating label select example .form-select-sm" required>
                                 {carValue.map(car => {
@@ -114,11 +119,11 @@ const Calculator = ({
                             <Form.Label className='label-headings' id='hours-heading'>Hours</Form.Label>
                             {/* Time select shortcuts */}
                             <ButtonGroup className='button-group' size="sm" aria-label="Basic example">
-                                <Button variant="secondary" onClick={onButtonClickThree}>3</Button>
-                                <Button variant="secondary" onClick={onButtonClickSix}>6</Button>
-                                <Button variant="secondary" >9</Button>
-                                <Button variant="secondary" onClick={onButtonClickTwelve}>12</Button>
-                                <Button variant="secondary" onClick={onButtonClickTwentyFour}>24</Button>
+                                <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickThree}>3</Button>
+                                <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickSix}>6</Button>
+                                <Button className = 'btn-orange'variant="secondary" >9</Button>
+                                <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickTwelve}>12</Button>
+                                <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickTwentyFour}>24</Button>
                             </ButtonGroup>
                             <Form.Control type="range" min="0" max="24" class="slider" onChange={onHourSliderChange} custom />
                             <Form.Control type="text" placeholder="" value={hourValue} readOnly />
@@ -128,18 +133,18 @@ const Calculator = ({
                             <Form.Label className='label-headings' id='minutes-heading'>Minutes</Form.Label>
                             {/* Time select shortcuts */}
                             <ButtonGroup className='button-group' size="sm" aria-label="Basic example">
-                                <Button variant="secondary" >10</Button>
-                                <Button variant="secondary" onClick={onButtonClick20}>20</Button>
-                                <Button variant="secondary" onClick={onButtonClick30}>30</Button>
-                                <Button variant="secondary" onClick={onButtonClick45}>45</Button>
-                                <Button variant="secondary" onClick={onButtonClick60}>60</Button>
+                                <Button className = 'btn-orange'variant="secondary" >10</Button>
+                                <Button className = 'btn-orange'variant="secondary" onClick={onButtonClick20}>20</Button>
+                                <Button className = 'btn-orange'variant="secondary" onClick={onButtonClick30}>30</Button>
+                                <Button className = 'btn-orange'variant="secondary" onClick={onButtonClick45}>45</Button>
+                                <Button className = 'btn-orange'variant="secondary" onClick={onButtonClick60}>60</Button>
                             </ButtonGroup>
                             <Form.Control type="range" min="0" max="60" class="slider" onChange={onMinuteSliderChange} custom />
                             <Form.Control type="text" placeholder="" value={minuteValue} readOnly />
                         </Form.Group>
                     </div>
                     <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-                        <button type="submit" class="btn btn-primary" onClick={buttonPress} >Calculate</button>
+                        <button type="submit" class="btn btn-primary btn-red" onClick={buttonPress} >Calculate</button>
                     </div>
 
                     <table class="table table-dark table-sm">
@@ -164,11 +169,11 @@ const Calculator = ({
                             </tr>
                             <tr>
                                 <th scope="row">Liters Per Lap</th>
-                                <td>{carLiters}</td>
+                                <td>{finalLiters}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Estimated Liters Need</th>
-                                <td>{estimatedLiters}</td>
+                                <td>{finalEstimate}</td>
                             </tr>
                         </tbody>
                     </table>
