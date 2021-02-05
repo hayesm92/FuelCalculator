@@ -8,7 +8,7 @@
 body{
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: cover;
+    background-size: inherit;
     background-image:url('../Pictures/gulf.jpg');
     -webkit-font-smoothing: antialiased; 
    }
