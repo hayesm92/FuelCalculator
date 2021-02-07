@@ -268,12 +268,12 @@ async componentDidMount() {
       .then(carList =>
         this.setState({
           accCarsGT3: carList,
-          // isLoading: false
+          isLoading: false
         }))
-    const data = await this.performTimeConsumingTask();
-    if (data !== null) {
-      this.setState({ isLoading: false });
-    }
+    // const data = await this.performTimeConsumingTask();
+    // if (data !== null) {
+    //   this.setState({ isLoading: false });
+    // }
   }
 
 
