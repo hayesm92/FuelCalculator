@@ -1,0 +1,9 @@
+.bg{
+    text-align: center;
+    background-color: green;
+    padding-top: 70%;
+    padding-bottom: 100%;
+    margin: 0;
+    z-index: 200;
+    top: 50%
+}

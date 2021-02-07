@@ -2,8 +2,7 @@ import React from 'react'
 import Form from 'react-bootstrap/Form'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
-import accCars from '../Components/carsWithLiters'
-import Setup from './Setup'
+import Setup from '../Setup/Setup'
 import './Calculator.css'
 
 
@@ -55,7 +54,8 @@ const Calculator = ({
     buttonPress,
     setCarTrack,
     finalLiters,
-    finalEstimate
+    finalEstimate,
+    clearState
 
     // liters, 
 }) => {
@@ -143,8 +143,9 @@ const Calculator = ({
                             <Form.Control type="text" placeholder="" value={minuteValue} readOnly />
                         </Form.Group>
                     </div>
-                    <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+                    <div className = 'button-submit' style={{ textAlign: 'center', marginBottom: '10px' }}>
                         <button type="submit" class="btn btn-primary btn-red" onClick={buttonPress} >Calculate</button>
+                        <button type="submit" class="btn btn-outline-danger" onClick={clearState} >Reset</button>
                     </div>
 
                     <table class="table table-dark table-sm">

@@ -8,9 +8,10 @@
 body{
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background-size: inherit;
-    background-image:url('../Pictures/gulf.jpg');
+    background-size: cover;
+    background-image:url('../../Pictures/gulf.jpg');
     -webkit-font-smoothing: antialiased; 
+    
    }
 
 .box{

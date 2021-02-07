@@ -1,7 +1,7 @@
 import React from 'react';
 import './Home.css'
-import github from '../Pictures/GitHub-Mark/PNG/GitHub-Mark-Light-32px.png'
-import linkedin from '../Pictures/LinkedIn-Logos/LI-In-Bug.png'
+import github from '../../Pictures/GitHub-Mark/PNG/GitHub-Mark-Light-32px.png'
+import linkedin from '../../Pictures/LinkedIn-Logos/LI-In-Bug.png'
 
 
 const Home = ({ onMainSelectionClick, onSelectionSubmit, checkError }) => {
