@@ -1,0 +1,22 @@
+
+.errorbg{
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+}
+#error{
+    font-family: 'Noto Sans JP', sans-serif;
+    text-align: center;
+    margin-top: 50%;
+}
+
+#errortwo{
+    color: red;
+    text-align: center;
+}
+
+#refresh{
+    margin-left: 25%;
+}

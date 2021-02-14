@@ -2,6 +2,8 @@
     background-color: rgba(3, 3, 3, 0.719);
     border-radius: 2px;;
     padding: 10px;
+    margin: 10px 10px 45px 10px;
+    
     
 }
 
@@ -38,4 +40,10 @@
 .button-submit{
     display: inline-flex;
     width: 100%;
+}
+
+.error-labels{
+    font-size: 15px;
+    color: red;
+    font-weight: bold;
 }

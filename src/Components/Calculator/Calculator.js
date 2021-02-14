@@ -4,6 +4,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import Setup from '../Setup/Setup'
 import './Calculator.css'
+import { createPopper } from '@popperjs/core';
 
 
 const minutes = Array.from(new Array(2), (x, i) => i + 1);
@@ -16,7 +17,6 @@ function prependZero(num) {
     }
 }
 const secondsArr = seconds.map(num => prependZero((num)));
-
 
 
 const Calculator = ({
@@ -55,7 +55,11 @@ const Calculator = ({
     setCarTrack,
     finalLiters,
     finalEstimate,
-    clearState
+    clearFormValues,
+    carMessage,
+    trackMessage,
+    avgMessage,
+    timeMessage
 
     // liters, 
 }) => {
@@ -63,36 +67,44 @@ const Calculator = ({
 
     return (
 
-        <div className='animate__animated animate__fadeIn' id='calculator' style={{ margin: '10px' }}>
+        <div className='animate__animated animate__fadeIn' id='calculator' style={{  }}>
             <div>
                 {/* //TrackDropdown */}
                 <div>
                     <div id='userSelection' style={{}}>
                         <div class="form-floating">
-                            <select name='track' class="form-select" id="floatingSelect" onChange={onTrackSelect} aria-label="Floating label select example .form-select-sm" required>
+                            <select name='track' class="form-select" id="trackFloatingSelect" onChange={onTrackSelect} aria-label="Floating label select example .form-select-sm" required>
                                 {trackValues.map(track => {
                                     return <option> {track}</option>
                                 })}
                             </select>
                             <label for="floatingSelect">Select Track</label>
                         </div>
+                        <div>
+                            <label className = 'error-labels'>{trackMessage}</label>
+                        </div>
                         <ButtonGroup className='button-group' size="sm" aria-label="Basic example">
                             <Button className = 'btn-orange' variant="secondary" onClick={onButtonClickGT3}>GT3</Button>
                             <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickGT4}>GT4</Button>
                             <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickST}>ST</Button>
-                            <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickCup}>CUP</Button>
+                            <Button id = 'cup' className = 'btn-orange'variant="secondary" onClick={onButtonClickCup}>CUP</Button>
                         </ButtonGroup>
 
                 
                         <div class="form-floating">
-                            <select name='car' class="form-select" id="floatingSelect car-heading" onChange={onCarSelect} aria-label="Floating label select example .form-select-sm" required>
+                            <select name='car' class="form-select" id="carFloatingSelect car-heading" onChange={onCarSelect} aria-label="Floating label select example .form-select-sm" required>
                                 {carValue.map(car => {
                                     return <option>{car}</option>
                                 })}
                             </select>
                             <label for="floatingSelect">Select Car</label>
+                            
                         </div>
-
+                        <div>
+                            <label className = 'error-labels'id = 'car-label'>{carMessage}</label>
+                        </div>
+                        
+                       
 
                         <label className='label-headings' id='lap-heading'> Average Lap Time</label><br></br>
                         {/* <input name= 'minute'type="number" id='minute' placeholder='Min' max='10' min='0' onChange = {handleChange}></input>
@@ -110,7 +122,12 @@ const Calculator = ({
                                     return <option>{second}</option>
                                 })}
                             </select>
+                            
                         </div>
+                        <div>
+                            <label className = 'error-labels'id = 'avg-label'>{avgMessage}</label>
+                        </div>
+                        
 
                         {/* //CarDropdown */}
 
@@ -126,7 +143,7 @@ const Calculator = ({
                                 <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickTwentyFour}>24</Button>
                             </ButtonGroup>
                             <Form.Control type="range" min="0" max="24" class="slider" onChange={onHourSliderChange} custom />
-                            <Form.Control type="text" placeholder="" value={hourValue} readOnly />
+                            <Form.Control type="text" id= 'slider-hour' placeholder="" value={hourValue} readOnly />
                         </Form.Group>
                         {/* //Minute Slider */}
                         <Form.Group controlId="formBasicRangeCustom">
@@ -140,12 +157,15 @@ const Calculator = ({
                                 <Button className = 'btn-orange'variant="secondary" onClick={onButtonClick60}>60</Button>
                             </ButtonGroup>
                             <Form.Control type="range" min="0" max="60" class="slider" onChange={onMinuteSliderChange} custom />
-                            <Form.Control type="text" placeholder="" value={minuteValue} readOnly />
+                            <Form.Control type="text" id = 'slider-minute' placeholder="" value={minuteValue} readOnly />
                         </Form.Group>
                     </div>
+                    <div>
+                            <label className = 'error-labels'id = 'time-label'>{timeMessage}</label>
+                        </div>
                     <div className = 'button-submit' style={{ textAlign: 'center', marginBottom: '10px' }}>
                         <button type="submit" class="btn btn-primary btn-red" onClick={buttonPress} >Calculate</button>
-                        <button type="submit" class="btn btn-outline-danger" onClick={clearState} >Reset</button>
+                        <button type="submit" class="btn btn-outline-danger" onClick={clearFormValues} >Reset</button>
                     </div>
 
                     <table class="table table-dark table-sm">

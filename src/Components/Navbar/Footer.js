@@ -1,37 +1,42 @@
 import React from 'react';
-import {Navbar, Nav, NavDropdown} from 'react-bootstrap'
-import {
-    MDBNavbar,
-    MDBNavbarBrand,
-    MDBNavbarNav,
-    MDBNavItem,
-    MDBNavLink,
-    MDBNavbarToggler,
-    MDBCollapse,
-    MDBMask,
-    MDBRow,
-    MDBCol,
-    MDBBtn,
-    MDBView,
-    MDBContainer,
-    MDBFormInline,
-    MDBAnimation,
-    MDBFooter
-  } from "mdbreact";
+import './Footer.css'
+import home from '../../Pictures/home.png'
+import tools from '../../Pictures/tools.png'
+import calculator from '../../Pictures/calculator2.png'
 
-const Footer = () =>{
-    return(
+const Footer = ({ onRouteChange, changeToGreen }) => {
+
+  
+  return (
+    <div id='footer-bg'>
+      <div className = 'highlights'>
+        <div id='highlight1'></div>
+        <div id='highlight2'></div>
+        <div id='highlight3'></div>
+      </div>
+     
+
+      <div className='footer-icons'>
         <div>
-            
-        <MDBFooter color="blue" className="font-small pt-4 mt-4  fixed-bottom" >
-          <div className="footer-copyright text-center py-3">
-            <MDBContainer fluid>
-              &copy; {new Date().getFullYear()} Copyright: <a href="https://github.com/hayesm92"> hayesm92 </a>
-            </MDBContainer>
-          </div>
-        </MDBFooter>
+          <img id='home' src={home} onClick={() => onRouteChange('home')}></img>
         </div>
-    )
+        <div>
+          <img id='calc' src={calculator}onClick={() => onRouteChange('acc')}></img>
+        </div>
+        <div>
+          <img id='tools' src={tools} onClick={() => onRouteChange('setup')}></img>
+        </div>
+      </div>
+      {/* <div className = 'footer-headings'>
+        <p>Home</p>
+        <p>Calculator</p>
+        <p>Setup</p>
+      </div> */}
+
+    </div>
+
+
+  )
 }
 
 export default Footer;

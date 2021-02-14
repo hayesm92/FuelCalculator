@@ -1,9 +1,23 @@
 .bg{
     text-align: center;
-    background-color: green;
-    padding-top: 70%;
-    padding-bottom: 100%;
-    margin: 0;
-    z-index: 200;
-    top: 50%
+    z-index: 10;
+    margin-top: 50%;
+}
+
+.bg2{
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom right, #77BCFF, #FFA458);
+    position: absolute;
+
+}
+.main-icon{
+    height: 100px;
+    width: 100px;
+    animation-iteration-count: infinite;
+}
+
+#loading{
+    font-family: 'Noto Sans JP', sans-serif;
 }
