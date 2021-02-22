@@ -1,0 +1,9 @@
+#users-box{
+    height: 200px;
+    width: 200px;
+    background-color: rgb(201, 201, 201);
+    display: inlineBlock;
+    margin-right: 10px;
+
+}
+     

@@ -13,7 +13,12 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "./index.css";
 import Setup from './Components/Setup/Setup';
 import Splash from './Components/Splash/Splash'
+import Profile from './Components/Profile/Profile'
 import Error from './Components/Splash/Error'
+import profileicon from './Pictures/profile2.png'
+import homeicon from './Pictures/home _filled.png'
+import tools from './Pictures/tools2.png'
+import Saved from './Components/Setup/Saved';
 
 
 
@@ -55,7 +60,16 @@ class App extends React.Component {
       timeMessage: '',
       avgMessage: '',
       mainMessage: '',
-
+      pic: profileicon,
+      homeFilled: homeicon,
+      tools: tools,
+      notifications: '',
+      savedTrack: '',
+      savedAvg: '',
+      savedCar: '',
+      savedLiters: '',
+      savedEstimate: '',
+      savedArray: [],
 
 
     }
@@ -183,29 +197,114 @@ class App extends React.Component {
   //   console.log(this.state.route);
   // }
   onRouteChange = (route) => {
-    if (route === 'home') {
-      this.clearState();
-    }
+
+    // if (route === 'home') {
+    //   this.clearState();
+    // }
     this.setState({
-      route: route },
-     ()=>{
-      if (this.state.route === 'home') {
-        document.getElementById('highlight1').style.backgroundColor = '#5DFA5D';
-      }
-      if (this.state.route === 'setup') {
+      route: route
+    },
+      () => {
+
+        if (route === 'setup') {
           document.getElementById('highlight3').style.backgroundColor = '#5DFA5D';
-      }
-      if (this.state.route === 'acc') {
-        document.getElementById('highlight2').style.backgroundColor = '#5DFA5D';
-      }
-     });
+          document.getElementById('highlight4').style.backgroundColor = 'white';
+          document.getElementById('highlight1').style.backgroundColor = 'white';
+          document.getElementById('setup').src = this.state.tools;
+          this.setState({
+            notifications: '',
+          });
+          console.log('Route: ', route)
+        }
+        if (route === 'profile') {
+          document.getElementById('highlight4').style.backgroundColor = '#5DFA5D';
+          document.getElementById('highlight1').style.backgroundColor = 'white';
+          document.getElementById('highlight3').style.backgroundColor = 'white';
+          document.getElementById('profile').src = this.state.pic;
+          console.log('Route: ', route)
+        }
+        if (route === 'acc') {
+          document.getElementById('highlight1').style.backgroundColor = '#5DFA5D';
+          document.getElementById('highlight4').style.backgroundColor = 'white';
+          document.getElementById('highlight3').style.backgroundColor = 'white';
+          console.log('Route: ', route)
+        }
+      })
+  }
+
+
+  //Changes notifications and saves calculations
+  saveCalculations = () => {
+    const save = () => {
+      let arr = []
+      this.setState({
+        savedCar: this.state.car,
+        savedTrack: this.state.track,
+        savedAvg: this.state.usersAverageLapTime,
+        savedLiters: this.state.finalLiters,
+        savedEstimate: this.state.finalEstimate
+      }, () => {
+        console.log('hello', this.state.savedCar, this.state.savedEstimate, this.state.savedAvg, this.state.savedLiters, this.state.savedEstimate)
+        arr.push(<div>{this.state.savedCar}</div>, <div>{this.state.savedTrack}</div>, <div>{this.state.savedAvg}</div>, <div>{this.state.savedLiters}</div>, <div>{this.state.savedEstimate}</div>)
+        let x = this.state.savedArray
+        x.push(arr)
+        return document.getElementById('save-math').value = 'Results Saved'
+
+        this.setState({
+          savedArray: x
+        }, () => {
+          console.log('Saved Array', this.state.savedArray)
+        })
+      })
+
     }
-    
+
+    //Alerts that calculations were saved
+    const changeMessage = () => {
+      setTimeout(() => {
+        return document.getElementById('save-math').value = 'Save'
+      }, 1000)
+    }
+
+    if (this.state.notifications === '') {
+      this.setState({
+        notifications: 1,
+        savedCar: this.state.car,
+        savedTrack: this.state.track,
+        savedAvg: this.state.usersAverageLapTime,
+        savedLiters: this.state.finalLiters,
+        savedEstimate: this.state.finalEstimate
+      }, () => {
+        changeMessage();
+        save();
+      })
+    }
+
+    if (this.state.notifications > 0) {
+      let counter = this.state.notifications
+      let final = counter + 1;
+
+      this.setState({
+        notifications: final,
+        savedCar: this.state.car,
+        savedTrack: this.state.track,
+        savedAvg: this.state.usersAverageLapTime,
+        savedLiters: this.state.finalLiters,
+        savedEstimate: this.state.finalEstimate
+      }, () => {
+        changeMessage();
+        save();
+      })
+    }
+
+  }
+
+
+
   onSelectionSubmit = () => {
     this.checkSelectionError();
     console.log('Error', this.state.fetchError)
     console.log('1:', typeof this.state.accTracks)
-
   }
 
 
@@ -226,11 +325,11 @@ class App extends React.Component {
         mainError: false,
         mainMessage: '',
         route: 'acc'
-      }, ()=>{
-        if (this.state.route === 'acc') {
-          document.getElementById('highlight2').style.backgroundColor = '#5DFA5D';
-        }
-      })
+      }, () => {
+
+        document.getElementById('highlight1').style.backgroundColor = '#5DFA5D';
+      }
+      )
     }
     if (selection === 'acc' && this.state.fetchError === true) {
       this.setState({
@@ -240,7 +339,7 @@ class App extends React.Component {
 
 
   }
-
+//Changes car and track selection
   setCarTrack = () => {
     this.setState({
       track: this.state.trackSelection,
@@ -256,6 +355,7 @@ class App extends React.Component {
     })
   }
 
+  //Fetches liters from database
   async onSubmit() {
     await fetch('https://polar-badlands-83667.herokuapp.com/liters', {
       method: 'post',
@@ -277,12 +377,15 @@ class App extends React.Component {
       .catch(err => console.log(err))
   }
 
+  //Checks if errors are present this displays results
   async calculateFuel() {
+    let arr = []
     await this.checkError();
     if (this.state.carError === false && this.state.avgError === false && this.state.timeError === false) {
       await this.finalMath()
       this.setCarTrack()
       this.displayResults()
+
     }
   }
 
@@ -302,11 +405,18 @@ class App extends React.Component {
     const messageA = 'Please select a time'
     const messageT = 'Please enter hours and/or minutes'
 
+    const setAtt = (e, attrs) => {
+      for (let key in attrs) {
+        e.setAttribute(key, attrs[key])
+      }
+    }
+
     if (this.state.carSelection === '') {
       this.setState({
         carError: true,
         carMessage: messageC
       })
+      setAtt(document.getElementById('cup'), { "data-bs-container": "body", "data-bs-toggle": "popover", "data-bs-placement": "right", "data-bs-content": "Right popover" });
     }
 
     if (this.state.carSelection) {
@@ -353,7 +463,9 @@ class App extends React.Component {
     const estimatedLiters2 = Math.round(estimatedLaps * this.state.carLiters);
     this.setState({
       estimatedLiters: estimatedLiters2,
+
     })
+
 
   }
 
@@ -362,9 +474,10 @@ class App extends React.Component {
     this.calculateFuel();
   }
 
+  //Fetches track lists from database
   async fetchInfo() {
     try {
-      await fetch('http://localhost:3000/tracks')
+      await fetch('https://polar-badlands-83667.herokuapp.com/tracks')
         .then(data => data.json())
         .then(tracks =>
           this.setState({
@@ -376,15 +489,16 @@ class App extends React.Component {
           fetchErr: this.state.accTracks,
           fetchError: true,
         })
-      } if(typeof this.state.accTracks === 'object') {
+      } if (typeof this.state.accTracks === 'object') {
         this.setState({
           fetchError: false,
         })
       }
-    } catch(err){
-        this.setState({
-          consoleError: err,
-        })
+    } catch (err) {
+      this.setState({
+        consoleError: err,
+        fetchError: true,
+      })
     }
     try {
       await fetch('https://polar-badlands-83667.herokuapp.com/cars')
@@ -404,15 +518,69 @@ class App extends React.Component {
 
     const data = await this.performTimeConsumingTask();
     if (data !== null) {
-      this.setState({ 
+      this.setState({
         isLoading: false,
-        route: 'home' });
+        route: 'home'
+      });
     }
   }
 
   async componentDidMount() {
     await this.fetchInfo()
   }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   let arr = [];
+  //   const newArr = this.state.savedArray;
+
+
+  //   if (this.state.car !== prevState.car) {
+  //     arr.push(this.state.car);
+  //     // console.log('Array', arr)
+  //   }
+  //   if (this.state.track !== prevState.track) {
+  //     arr.push(this.state.track)
+  //     // console.log('Array', arr)
+  //   }
+
+  //   if (this.state.usersAverageLapTime !== prevState.usersAverageLapTime) {
+  //     arr.push(this.state.usersAverageLapTime)
+  //     // console.log('Array', arr)
+  //   }
+
+  //   if (this.state.finalEstimate !== prevState.finalEstimate) {
+  //     arr.push(this.state.finalEstimate)
+  //     // console.log('Array', arr)
+  //   }
+
+  //   if (this.state.finalLiters !== prevState.finalLiters) {
+  //     arr.push(this.state.finalLiters)
+  //     // console.log('Array', arr)
+  //   }
+  //   newArr.push(arr);
+
+  //   console.log('ARRAY', arr)
+
+
+
+
+
+  // // this.setState({
+  // //   savedArray: newArr
+  // // }, () => {
+  // //   console.log('New Array', newArr)
+  // // })
+
+
+
+
+  //   }
+
+
+
+
+
+
 
   //Change states back to default when going Home
   clearState = () => {
@@ -454,36 +622,36 @@ class App extends React.Component {
       const sm = document.getElementById('slider-minute').value = 0;
       const sh = document.getElementById('slider-hour').value = 0;
 
-      if(mt === 'null'){
+      if (mt === 'null') {
         return document.getElementById('minute-time').value
-      } else{
-        return document.getElementById('minute-time').value = 0
-      }
-      
-      if(st === 'null'){
-        return document.getElementById('minute-time').value
-      } else{
-        return document.getElementById('minute-time').value = 0
-      }
-      
-      if(sm === 'null'){
-        return document.getElementById('minute-time').value
-      } else{
-        return document.getElementById('minute-time').value = 0
-      }
-      if(sh === 'null'){
-        return document.getElementById('minute-time').value
-      } else{
+      } else {
         return document.getElementById('minute-time').value = 0
       }
 
-    
-    clearValues();
+      if (st === 'null') {
+        return document.getElementById('minute-time').value
+      } else {
+        return document.getElementById('minute-time').value = 0
+      }
 
+      if (sm === 'null') {
+        return document.getElementById('minute-time').value
+      } else {
+        return document.getElementById('minute-time').value = 0
+      }
+      if (sh === 'null') {
+        return document.getElementById('minute-time').value
+      } else {
+        return document.getElementById('minute-time').value = 0
+      }
+
+
+      clearValues();
+
+    }
   }
-}
 
-  //Resets Calculator
+  //Resets and clears inputs in calculator
   clearFormValues = () => {
     this.setState({
       minuteValue: '', //Used by Minute Slider
@@ -532,12 +700,12 @@ class App extends React.Component {
     return new Promise((resolve) =>
       setTimeout(
         () => { resolve('result') },
-        10000
+        1000
       )
     );
   }
 
-
+//Refreshes application if error occurs
   async refresh() {
     this.setState({
       isLoading: true
@@ -546,7 +714,6 @@ class App extends React.Component {
       fetchError: false,
     })
     this.componentDidMount();
-
   }
 
   // async componentDidMount() {
@@ -589,7 +756,7 @@ class App extends React.Component {
   //   }
   // }
 
-  
+
 
 
   render() {
@@ -613,7 +780,7 @@ class App extends React.Component {
             ? <Splash />
             : this.state.route === 'acc' && this.state.isLoading === false
               ? <div>
-                <NavBar onRouteChange={this.onRouteChange} clearState={this.clearState}></NavBar>
+                {/* <NavBar onRouteChange={this.onRouteChange} clearState={this.clearState}></NavBar> */}
                 <Calculator
                   onHourSliderChange={this.onHourSliderChange}
                   onMinuteSliderChange={this.onMinuteSliderChange}
@@ -650,8 +817,11 @@ class App extends React.Component {
                   trackMessage={this.state.trackMessage}
                   avgMessage={this.state.avgMessage}
                   timeMessage={this.state.timeMessage}
+                  onMainSelectionClick={this.onMainSelectionClick}
+                  saveCalculations={this.saveCalculations}
+                  changeMessage={this.changeMessage}
                 />
-                <Footer onRouteChange = {this.onRouteChange} />
+                <Footer onRouteChange={this.onRouteChange} notifications={this.state.notifications} />
               </div>
 
               : route === 'home' || route === 'calculator' && this.state.isLoading === false && this.state.fetchErr === false ?
@@ -661,7 +831,7 @@ class App extends React.Component {
                     onSelectionSubmit={this.onSelectionSubmit}
                     mainMessage={this.state.mainMessage}
                   />
-                  <Footer onRouteChange = {this.onRouteChange} changeToGreen = {this.changeToGreen}></Footer>
+
                 </div>
 
                 : route === 'ir'
@@ -687,14 +857,20 @@ class App extends React.Component {
 
                   : route === 'setup'
                     ? <Display>
-                      <NavBar onRouteChange={this.onRouteChange}></NavBar>
+                      {/* <NavBar onRouteChange={this.onRouteChange}></NavBar> */}
                       <Setup />
-                      <Footer onRouteChange = {this.onRouteChange} changeToGreen = {this.changeToGreen}></Footer>
+                      <Footer onRouteChange={this.onRouteChange} changeToGreen={this.changeToGreen}></Footer>
                     </Display>
 
                     : route === 'error'
                       ? <Error err={this.state.fetchErr} refresh={this.refresh} />
-                      : null}
+                      : route === 'profile'
+                        ? <div>
+                          <Profile savedArray={this.state.savedArray}
+                          ></Profile>
+                          <Footer onRouteChange={this.onRouteChange} changeToGreen={this.changeToGreen}></Footer>
+                        </div>
+                        : null}
 
 
 

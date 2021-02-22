@@ -36,6 +36,7 @@ const Calculator = ({
     onButtonClickCup,
     onMinuteSliderChange,
     onHourSliderChange,
+    onMainSelectionClick,
     onTrackSelect,
     onCarSelect,
     minuteValue,
@@ -59,7 +60,9 @@ const Calculator = ({
     carMessage,
     trackMessage,
     avgMessage,
-    timeMessage
+    timeMessage,
+    saveCalculations,
+    changeMessage
 
     // liters, 
 }) => {
@@ -72,6 +75,18 @@ const Calculator = ({
                 {/* //TrackDropdown */}
                 <div>
                     <div id='userSelection' style={{}}>
+                    <div class="form-floating">
+                    <select id= 'sim-selection' class="form-select form-select-sm " aria-label=".form-select-sm example" onChange={onMainSelectionClick} required>
+                        {/* <option selected>Choose a simulator</option> */}
+                        <option selected value="acc">Assetto Corsa Competizione</option>
+                        <option value="ac">Assetto Corsa</option>
+                        <option value="f1">F1 2021</option>
+                        <option value="ir">iRacing</option>
+                        <option value="rr">Raceroom</option>
+                        <option value="rf">rFactor</option>
+                    </select>
+                    <label for="floatingSelect">Change Simulator</label>
+                    </div>
                         <div class="form-floating">
                             <select name='track' class="form-select" id="trackFloatingSelect" onChange={onTrackSelect} aria-label="Floating label select example .form-select-sm" required>
                                 {trackValues.map(track => {
@@ -87,7 +102,7 @@ const Calculator = ({
                             <Button className = 'btn-orange' variant="secondary" onClick={onButtonClickGT3}>GT3</Button>
                             <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickGT4}>GT4</Button>
                             <Button className = 'btn-orange'variant="secondary" onClick={onButtonClickST}>ST</Button>
-                            <Button id = 'cup' className = 'btn-orange'variant="secondary" onClick={onButtonClickCup}>CUP</Button>
+                            <Button id = 'cup' className = 'btn-orange'variant="secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="Right popover" onClick={onButtonClickCup}>CUP</Button>
                         </ButtonGroup>
 
                 
@@ -98,11 +113,11 @@ const Calculator = ({
                                 })}
                             </select>
                             <label for="floatingSelect">Select Car</label>
-                            
                         </div>
                         <div>
                             <label className = 'error-labels'id = 'car-label'>{carMessage}</label>
                         </div>
+                       
                         
                        
 
@@ -195,6 +210,9 @@ const Calculator = ({
                             <tr>
                                 <th scope="row">Estimated Liters Need</th>
                                 <td>{finalEstimate}</td>
+                            </tr>
+                            <tr id = 'save-button'>
+                            <input id = 'save-math' class="btn btn-primary"  type="submit" value="Save" onClick = {()=> {saveCalculations();}}></input>
                             </tr>
                         </tbody>
                     </table>

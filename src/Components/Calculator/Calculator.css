@@ -3,6 +3,7 @@
     border-radius: 2px;;
     padding: 10px;
     margin: 10px 10px 45px 10px;
+    font-family: 'Roboto Condensed', sans-serif;
     
     
 }
@@ -40,10 +41,31 @@
 .button-submit{
     display: inline-flex;
     width: 100%;
+    
 }
 
 .error-labels{
     font-size: 15px;
     color: red;
     font-weight: bold;
+}
+
+
+#sim-selection{
+    margin-bottom: 20px;
+}
+
+#save-math{
+    display: flex;
+    justify-content: center;
+    margin-left: 45%;
+    width: 100%;
+}
+
+#save-button{
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

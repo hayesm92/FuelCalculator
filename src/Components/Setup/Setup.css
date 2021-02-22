@@ -1,9 +1,14 @@
+
+
+
 .accordion-header{
     background-color: rgb(236, 236, 236);
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
 .accordion-body{
     background-color: rgba(160, 160, 160, 0.541);
+    font-family: 'Roboto Condensed', sans-serif;
     
 }
 
@@ -17,7 +22,7 @@
     width: 100%;
 }
 
-#setup{
+.setup{
     background-color: rgba(3, 3, 3, 0.719);
     border-radius: 2px;;
     padding: 10px;
@@ -28,4 +33,5 @@
 h4{
     text-align: center;
     color: white;
+    font-family: 'Roboto Condensed', sans-serif;
 }

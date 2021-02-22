@@ -9,7 +9,7 @@
 }
 #highlight1{
     position: fixed;
-    background-color:  rgb(87, 87, 85);
+    background-color:  rgb(255, 255, 255);
     height: 3px;
     clear:both;
     width: 33%;
@@ -17,9 +17,19 @@
     left: 0
 }
 
-#highlight2{
+/* #highlight2{
     position: fixed;
     background-color:  rgb(87, 87, 85);
+    height: 3px;
+    clear:both;
+    width: 25%;
+    z-index: 101;
+    left: 25%
+} */
+
+#highlight3{
+    position: fixed;
+    background-color:  rgb(255, 255, 255);
     height: 3px;
     clear:both;
     width: 33%;
@@ -27,12 +37,12 @@
     left: 33%
 }
 
-#highlight3{
+#highlight4{
     position: fixed;
-    background-color:  rgb(87, 87, 85);
+    background-color:  rgb(255, 255, 255);
     height: 3px;
     clear:both;
-    width: 34%;
+    width:33%;
     z-index: 101;
     left: 66%
 }
@@ -40,7 +50,7 @@
 #footer-bg{
     height: 7%;
     width: 100%;
-    background-color: rgb(87, 87, 85);
+    background-color: rgb(255, 255, 255);
     position: fixed;
     bottom: 0;
     z-index: 100;
@@ -52,16 +62,21 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
-    margin-top: 3px;
+    margin-top: 4px;
     color: white;
 }
 
 .footer-headings{
     display: flex;
     flex-direction: row;
-    align-items: center;
+    /* align-items: center; */
     justify-content: space-around;
-    margin-top: 0;
-    color: white;
-    font-size: 7px;
+    margin-top: -30px;
+    /* color: rgb(255, 255, 255); */
+    font-size: 8px;
+    font-family: 'Roboto', sans-serif;
+    z-index: -5;
+ 
 }
+
+

@@ -6,7 +6,7 @@ const Splash = () => {
     return (
         <div className = 'bg2'>
             <div className='bg'>
-                <img className=" main-icon animate__animated animate__bounce"src = {icon}></img>
+                <img className=" main-icon "src = {icon}></img>
                 <h1 id = 'loading'>Loading</h1>
                 <div class="spinner-border text-warning" role="status">
                     <span class="visually-hidden">Loading...</span>

@@ -7,7 +7,8 @@ import './Setup.css'
 const Setup = () => {
 
     return (
-        <div id = 'setup'>
+        <div>
+            <div className = 'setup'>
             <h4>Setup Tips</h4>
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 <div class="accordion-item">
@@ -509,12 +510,12 @@ const Setup = () => {
                     </div>
                 </div>
             </div>
-            
-                      
-                       
-           
-                  
         </div>
+        <div className = 'setup'>
+            <h4> Tire Pressures</h4>
+        </div>
+        </div>
+        
     )
 
 }
