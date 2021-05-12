@@ -56,16 +56,26 @@
 }
 
 #save-math{
-    display: flex;
+    display:flex;
     justify-content: center;
-    margin-left: 45%;
-    width: 100%;
+    
+    
+    
 }
 
-#save-button{
-    margin-top: 10px;
+#save-div{
+    margin-top: 0px;
     width: 100%;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
-    align-items: center;
+    background-color: gray;
 }
+#homebg img{
+    height: 100%;
+    width: 100%;
+    z-index: -5;
+    position: absolute;
+  
+     
+    
+   }

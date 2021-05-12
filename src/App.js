@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Selection from './Components/Selection/Selection'
@@ -70,6 +70,15 @@ class App extends React.Component {
       savedLiters: '',
       savedEstimate: '',
       savedArray: [],
+      modalArray: [],
+      currentID: '',
+      modalId: '',
+      modalCar: '',
+      modalLength: '',
+      modalTrack: '',
+      modalAvg: '',
+      modalLiters: '',
+      modalEstimate: '',
 
 
     }
@@ -176,26 +185,6 @@ class App extends React.Component {
     })
   }
 
-  // onMainSelectionClick = (e) => {
-  //   this.checkSelectionError();
-  //   console.log(this.state.mainError)
-  //   if (this.state.mainError === false) {
-  //     this.setState({
-  //       mainSelection: 'acc'
-  //     })
-  //   } else {
-  //     this.setState({
-  //       route: 'home'
-  //     })
-
-  //   }
-  //   if (e.target.value === 'acc') {
-  //     this.setState({
-  //       mainSelection: 'acc'
-  //     })
-  //   };
-  //   console.log(this.state.route);
-  // }
   onRouteChange = (route) => {
 
     // if (route === 'home') {
@@ -221,22 +210,47 @@ class App extends React.Component {
           document.getElementById('highlight1').style.backgroundColor = 'white';
           document.getElementById('highlight3').style.backgroundColor = 'white';
           document.getElementById('profile').src = this.state.pic;
+
           console.log('Route: ', route)
+          this.setState({
+            notifications: '',
+          });
         }
         if (route === 'acc') {
           document.getElementById('highlight1').style.backgroundColor = '#5DFA5D';
           document.getElementById('highlight4').style.backgroundColor = 'white';
           document.getElementById('highlight3').style.backgroundColor = 'white';
           console.log('Route: ', route)
+          this.setState({
+            notifications: '',
+          });
         }
       })
   }
+
+  getRandNum = (min, max) => {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
 
 
   //Changes notifications and saves calculations
   saveCalculations = () => {
     const save = () => {
+
       let arr = []
+      let id = this.getRandNum(1, 1000)
+      let modalId = "modal" + id
+
+      this.setState({
+        modalId: modalId
+      }, () => {
+
+      })
+
+      let modalArr = []
+      let counter = 1;
+
       this.setState({
         savedCar: this.state.car,
         savedTrack: this.state.track,
@@ -244,26 +258,80 @@ class App extends React.Component {
         savedLiters: this.state.finalLiters,
         savedEstimate: this.state.finalEstimate
       }, () => {
-        console.log('hello', this.state.savedCar, this.state.savedEstimate, this.state.savedAvg, this.state.savedLiters, this.state.savedEstimate)
-        arr.push(<div>{this.state.savedCar}</div>, <div>{this.state.savedTrack}</div>, <div>{this.state.savedAvg}</div>, <div>{this.state.savedLiters}</div>, <div>{this.state.savedEstimate}</div>)
+        arr.push(
+          <div
+            id={id}
+            className='saved-box2'
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            onClick={this.storeIdNum}>
+            <p className = "savedHeadings" >Car Selected:</p> 
+            <div className = 'savedResults'>{this.state.savedCar}</div>
+            <p className = "savedHeadings">Track Selected:</p> 
+            <div className = 'savedResults'>{this.state.savedTrack}</div>
+            <p className = "savedHeadings">Race Length:</p>
+            <div className = 'savedResults'>{this.state.hourValue} hr and {this.state.minuteValue} mins</div> 
+          </div>
+        )
+
+        modalArr.push(
+          <div className="modal fade" id={modalId} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div>{this.state.modalCar}</div>
+                  <div>{this.state.modalTrack}</div>
+                  <div>{this.state.modalLength}</div>
+                  <div>{}</div>
+                  <div>{}</div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-warning">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+
+
         let x = this.state.savedArray
+        let y = this.state.modalArray
+
         x.push(arr)
-        return document.getElementById('save-math').value = 'Results Saved'
+        y.push(modalArr)
+
 
         this.setState({
-          savedArray: x
-        }, () => {
-          console.log('Saved Array', this.state.savedArray)
-        })
-      })
+          savedArray: x,
+          modalArray: y
 
+        }, () => {
+          return document.getElementById('save-math').value = 'Results Saved'
+        })
+
+        console.log('MODAL', this.state.modalArray)
+        console.log('SAVED', this.state.savedArray)
+      })
     }
+
+
 
     //Alerts that calculations were saved
     const changeMessage = () => {
+      const saveBtn = document.getElementById('save-math')
+      saveBtn.setAttribute("class", "btn btn-primary disabled")
+      console.log('SAVE', saveBtn)
+
       setTimeout(() => {
+        const saveBtn = document.getElementById('save-math')
+        saveBtn.setAttribute("class", "btn btn-primary")
         return document.getElementById('save-math').value = 'Save'
-      }, 1000)
+      }, 2000)
     }
 
     if (this.state.notifications === '') {
@@ -275,12 +343,13 @@ class App extends React.Component {
         savedLiters: this.state.finalLiters,
         savedEstimate: this.state.finalEstimate
       }, () => {
-        changeMessage();
         save();
+        changeMessage();
       })
     }
 
     if (this.state.notifications > 0) {
+
       let counter = this.state.notifications
       let final = counter + 1;
 
@@ -292,13 +361,97 @@ class App extends React.Component {
         savedLiters: this.state.finalLiters,
         savedEstimate: this.state.finalEstimate
       }, () => {
-        changeMessage();
         save();
+        changeMessage();
       })
     }
-
+  }
+  getAlert = () => {
+    document.getElementById('alert')
   }
 
+  deleteSaved = () => {
+    let x = this.state.currentID
+    let y = this.state.savedArray
+
+    y.forEach(arr => {
+      if (arr[0].props.id === x) {
+        let index = y.indexOf(arr);
+        y.splice(index, 1);
+        this.setState({
+          savedArray: y,
+        })
+
+      }
+    })
+  }
+
+
+  // showModalArray = () => {
+  //   let x = this.state.savedArray
+  //   let y = this.state.modalArray
+
+  //   let xArr = []
+  //   let yArr = []
+
+  //   x.forEach(b => {
+  //     xArr.push(b[0].props.id)
+  //   })
+
+  //   y.forEach(b => {
+
+  //     let r = b[0].props.id
+  //     console.log('R', r)
+  //     let t = r.slice(5)
+  //     yArr.push(Number(t))
+  //   })
+
+
+  //   xArr.forEach(num => {
+  //     if (num === this.state.currentID) {
+  //       const e = this.state.currentID.toString()
+  //       const box = document.getElementById(e)
+  //       console.log('BOX', box)
+  //       let newId = '#' + this.state.modalId.toString()
+
+  //     }
+  //   })
+  // }
+
+  storeIdNum = (event) => {
+    let x = Number(event.target.id);
+    let arr = []
+    let carText = document.getElementById(x).getElementsByTagName('div')[0].innerText;
+    let trackText = document.getElementById(x).getElementsByTagName('div')[1].innerText
+    let lengthText = document.getElementById(x).getElementsByTagName('div')[2].innerText
+   
+    arr.push(carText)
+    console.log("ARRAYY", arr)
+    this.setState({
+      currentID: x,
+      modalCar: carText,
+      modalTrack: trackText,
+      modalLength: lengthText,
+    })
+
+    let y = this.state.modalArray
+    y.forEach(b => {
+
+      let r = Number(b[0].props.id.slice(5))
+      let x = Number(event.target.id);
+      if (x === r) {
+        console.log('B', b)
+      }
+
+
+
+      // let t = r.slice(5)
+      // if(t=== this.s)
+      // arr.push(Number(t))
+    })
+
+    console.log('ARRAY', arr)
+  }
 
 
   onSelectionSubmit = () => {
@@ -339,7 +492,7 @@ class App extends React.Component {
 
 
   }
-//Changes car and track selection
+  //Changes car and track selection
   setCarTrack = () => {
     this.setState({
       track: this.state.trackSelection,
@@ -354,6 +507,8 @@ class App extends React.Component {
       car: this.state.carSelection,
     })
   }
+
+
 
   //Fetches liters from database
   async onSubmit() {
@@ -529,58 +684,6 @@ class App extends React.Component {
     await this.fetchInfo()
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   let arr = [];
-  //   const newArr = this.state.savedArray;
-
-
-  //   if (this.state.car !== prevState.car) {
-  //     arr.push(this.state.car);
-  //     // console.log('Array', arr)
-  //   }
-  //   if (this.state.track !== prevState.track) {
-  //     arr.push(this.state.track)
-  //     // console.log('Array', arr)
-  //   }
-
-  //   if (this.state.usersAverageLapTime !== prevState.usersAverageLapTime) {
-  //     arr.push(this.state.usersAverageLapTime)
-  //     // console.log('Array', arr)
-  //   }
-
-  //   if (this.state.finalEstimate !== prevState.finalEstimate) {
-  //     arr.push(this.state.finalEstimate)
-  //     // console.log('Array', arr)
-  //   }
-
-  //   if (this.state.finalLiters !== prevState.finalLiters) {
-  //     arr.push(this.state.finalLiters)
-  //     // console.log('Array', arr)
-  //   }
-  //   newArr.push(arr);
-
-  //   console.log('ARRAY', arr)
-
-
-
-
-
-  // // this.setState({
-  // //   savedArray: newArr
-  // // }, () => {
-  // //   console.log('New Array', newArr)
-  // // })
-
-
-
-
-  //   }
-
-
-
-
-
-
 
   //Change states back to default when going Home
   clearState = () => {
@@ -705,7 +808,7 @@ class App extends React.Component {
     );
   }
 
-//Refreshes application if error occurs
+  //Refreshes application if error occurs
   async refresh() {
     this.setState({
       isLoading: true
@@ -715,47 +818,6 @@ class App extends React.Component {
     })
     this.componentDidMount();
   }
-
-  // async componentDidMount() {
-  //   await fetch('http://localhost:3000/tracks')
-  //     .then(data => data.json())
-  //     .then(tracks =>
-  //       this.setState({
-  //         accTracks: tracks,
-  //       }))
-  //   if (typeof this.state.accTracks === 'string') {
-  //     this.setState({
-  //       fetchErr: this.state.accTracks,
-  //       fetchError: true,
-  //     })
-
-  //   }
-
-  //   try {
-  //     await fetch('https://polar-badlands-83667.herokuapp.com/cars')
-  //       .then(data => data.json())
-  //       .then(carList =>
-  //         this.setState({
-  //           accCarsGT3: carList,
-  //           // isLoading: false
-  //         }))
-  //   }
-
-  //   catch (err) {
-  //     this.setState({
-  //       fetchError: true,
-  //     })
-  //   }
-
-  //   const data = await this.performTimeConsumingTask();
-  //   if (data !== null) {
-  //     this.setState({
-  //       isLoading: false,
-  //       route: 'home'
-  //     });
-  //   }
-  // }
-
 
 
 
@@ -866,7 +928,18 @@ class App extends React.Component {
                       ? <Error err={this.state.fetchErr} refresh={this.refresh} />
                       : route === 'profile'
                         ? <div>
-                          <Profile savedArray={this.state.savedArray}
+                          <Profile
+                            savedArray={this.state.savedArray}
+                            showModalArray={this.showModalArray}
+                            storeIdNum={this.storeIdNum}
+                            modalCar={this.state.modalCar}
+                            modalTrack={this.state.modalTrack}
+                            modalAvg={this.state.modalAvg}
+                            modalEstimate={this.state.modalEstimate}
+                            modalLiters={this.state.modalLiters}
+                            deleteSaved={this.deleteSaved}
+                            getAlert={this.getAlert}
+
                           ></Profile>
                           <Footer onRouteChange={this.onRouteChange} changeToGreen={this.changeToGreen}></Footer>
                         </div>

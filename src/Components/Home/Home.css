@@ -1,22 +1,19 @@
-*{
-    margin: 0;
-    padding: 0;
-   }
-   
+
   
 
-body{
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    background-image:url('../../Pictures/gulf.jpg');
-    -webkit-font-smoothing: antialiased; 
+#homebg img{
+    height: 100%;
+    width: 100%;
+    z-index: -5;
+    position: absolute;
+  
+     
     
    }
 
 .box{
    
-    position: relative;
+    position: absolute;
     width: 320px;
     height: 350px;
     top: calc(40% - 175px);

@@ -1,0 +1,21 @@
+.saved-box2{
+    height: 250px;
+    width: 200px;
+    background-color: rgb(170, 165, 165);
+    display: inline-block;
+    margin-right: 10px;
+    z-index: 200;
+    text-align: center;
+    
+   
+}
+
+.savedHeadings{
+    font-size: 12px;
+    margin-bottom: 0;
+    margin-top: 0;
+    
+}
+.savedResults{
+    margin-top: -5px;
+}

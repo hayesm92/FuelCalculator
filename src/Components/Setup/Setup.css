@@ -35,3 +35,8 @@ h4{
     color: white;
     font-family: 'Roboto Condensed', sans-serif;
 }
+
+.tableHeading{
+    margin-bottom: 0;
+    font-size: 15px;
+}

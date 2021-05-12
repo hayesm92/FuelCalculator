@@ -513,6 +513,58 @@ const Setup = () => {
         </div>
         <div className = 'setup'>
             <h4> Tire Pressures</h4>
+            <p className = 'tableHeading'>Optimal Tire Pressure Windows</p>
+            <table class="table table-info">
+                <thead>
+                    <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">Compound</th>
+                    <th scope="col">Pressures (in PSI)</th>
+                    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GT3</td>
+                        <td>DHE (2020)</td>
+                        <td>26.8 to 27.4</td>
+                    </tr>
+                    <tr>
+                        <td>GT3</td>
+                        <td>DHD2 (2019)</td>
+                        <td>27.5 to 28.0</td>
+                    </tr>
+                    <tr>
+                        <td>GT4</td>
+                        <td>DHE</td>
+                        <td>26.8 to 27.4</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p className = 'tableHeading'>Wet Conditions</p>
+            <table class="table table-info">
+                <thead>
+                    <tr>
+                        <th scope="col">Compound</th>
+                        <th scope="col">Pressures (in PSI)</th>
+                    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Wet DHE (2020)</td>
+                        <td>29.5 to 31.0</td>
+                       
+                    </tr>
+                    <tr>
+                        <td>Wet DHD2</td>
+                        <td>29.5 to 31.0</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+
         </div>
         </div>
         
