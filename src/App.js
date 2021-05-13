@@ -79,6 +79,7 @@ class App extends React.Component {
       modalAvg: '',
       modalLiters: '',
       modalEstimate: '',
+     
 
 
     }
@@ -265,9 +266,9 @@ class App extends React.Component {
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
             onClick={this.storeIdNum}>
-            <p className = "savedHeadings" >Car Selected:</p> 
+            <p id = 'firstheading' className = "savedHeadings" >Car:</p> 
             <div className = 'savedResults'>{this.state.savedCar}</div>
-            <p className = "savedHeadings">Track Selected:</p> 
+            <p className = "savedHeadings">Track:</p> 
             <div className = 'savedResults'>{this.state.savedTrack}</div>
             <p className = "savedHeadings">Race Length:</p>
             <div className = 'savedResults'>{this.state.hourValue} hr and {this.state.minuteValue} mins</div> 
@@ -275,27 +276,15 @@ class App extends React.Component {
         )
 
         modalArr.push(
-          <div className="modal fade" id={modalId} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div>{this.state.modalCar}</div>
-                  <div>{this.state.modalTrack}</div>
-                  <div>{this.state.modalLength}</div>
-                  <div>{}</div>
-                  <div>{}</div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-warning">Delete</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div
+          id={modalId}>
+          
+          <div className = 'modalResults'>{this.state.savedCar}</div>
+          <div className = 'modalResults'>{this.state.savedTrack}</div>
+          <div className = 'modalResults'>{this.state.usersAverageLapTime}</div> 
+          <div className = 'modalResults'>{this.state.savedLiters}</div> 
+          <div className = 'modalResults'>{this.state.savedEstimate}</div> 
+        </div>
         )
 
 
@@ -318,6 +307,14 @@ class App extends React.Component {
         console.log('SAVED', this.state.savedArray)
       })
     }
+    // const checkTime = () =>{
+    //   if(this.state.hourValue === '' && this.state.minuteValue != ''){
+    //     return this.state.minuteValue + 'mins'
+    //   }
+    //   if(this.state.hourValue != '' && this.state.minuteValue === ''){
+    //     return this.state.hourValue + 'hrs'
+    //   }
+    // }
 
 
 
@@ -331,22 +328,28 @@ class App extends React.Component {
         const saveBtn = document.getElementById('save-math')
         saveBtn.setAttribute("class", "btn btn-primary")
         return document.getElementById('save-math').value = 'Save'
-      }, 2000)
+      }, 1000)
     }
-
-    if (this.state.notifications === '') {
-      this.setState({
-        notifications: 1,
-        savedCar: this.state.car,
-        savedTrack: this.state.track,
-        savedAvg: this.state.usersAverageLapTime,
-        savedLiters: this.state.finalLiters,
-        savedEstimate: this.state.finalEstimate
-      }, () => {
-        save();
-        changeMessage();
-      })
-    }
+    if(
+      this.state.car != '' 
+      && this.state.track != ''
+      && this.state.usersAverageLapTime != '' 
+      && this.state.finalEstimate != ''
+      && this.state.finalLiters != ''){
+        
+        if (this.state.notifications === '') {
+          this.setState({
+            notifications: 1,
+            savedCar: this.state.car,
+            savedTrack: this.state.track,
+            savedAvg: this.state.usersAverageLapTime,
+            savedLiters: this.state.finalLiters,
+            savedEstimate: this.state.finalEstimate
+          }, () => {
+            save();
+            changeMessage();
+          })
+        }
 
     if (this.state.notifications > 0) {
 
@@ -364,7 +367,12 @@ class App extends React.Component {
         save();
         changeMessage();
       })
+    } else{
+      console.log('NO')
     }
+
+      }
+
   }
   getAlert = () => {
     document.getElementById('alert')
@@ -420,19 +428,11 @@ class App extends React.Component {
 
   storeIdNum = (event) => {
     let x = Number(event.target.id);
-    let arr = []
-    let carText = document.getElementById(x).getElementsByTagName('div')[0].innerText;
-    let trackText = document.getElementById(x).getElementsByTagName('div')[1].innerText
-    let lengthText = document.getElementById(x).getElementsByTagName('div')[2].innerText
+    
+
    
-    arr.push(carText)
-    console.log("ARRAYY", arr)
-    this.setState({
-      currentID: x,
-      modalCar: carText,
-      modalTrack: trackText,
-      modalLength: lengthText,
-    })
+   
+    
 
     let y = this.state.modalArray
     y.forEach(b => {
@@ -440,18 +440,33 @@ class App extends React.Component {
       let r = Number(b[0].props.id.slice(5))
       let x = Number(event.target.id);
       if (x === r) {
-        console.log('B', b)
-      }
+        let arr = []
+      //   let modal = 'modal' + x.toString() ;
+        let carText = b[0].props.children[0].props.children
+        let trackText = b[0].props.children[1].props.children
+        let avgText = b[0].props.children[2].props.children
+        let litersText = b[0].props.children[3].props.children
+        let lapsText = b[0].props.children[4].props.children
+     
+        this.setState({
+          currentID: x,
+          modalCar: carText,
+          modalTrack: trackText,
+          modalAvg: avgText,
+          modalLiters: litersText,
+          modalEstimate: lapsText
+        })
 
+ 
 
 
       // let t = r.slice(5)
       // if(t=== this.s)
       // arr.push(Number(t))
-    })
+    }
 
-    console.log('ARRAY', arr)
-  }
+    
+  })}
 
 
   onSelectionSubmit = () => {
@@ -571,7 +586,7 @@ class App extends React.Component {
         carError: true,
         carMessage: messageC
       })
-      setAtt(document.getElementById('cup'), { "data-bs-container": "body", "data-bs-toggle": "popover", "data-bs-placement": "right", "data-bs-content": "Right popover" });
+      
     }
 
     if (this.state.carSelection) {

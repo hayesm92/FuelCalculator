@@ -70,12 +70,13 @@
     justify-content: center;
     background-color: gray;
 }
-#homebg img{
-    height: 100%;
+
+#fill img{
     width: 100%;
-    z-index: -5;
+    height: 180%;
     position: absolute;
-  
-     
-    
-   }
+    top: 0;
+    object-fit: cover;
+    opacity: .5;
+   
+}

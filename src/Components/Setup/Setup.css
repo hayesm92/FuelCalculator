@@ -1,5 +1,15 @@
 
 
+#bg img{
+    width: 100%;
+    height: 125%;
+    position: absolute;
+    top: 0;
+    object-fit: cover;
+    opacity: .5;
+    z-index: -10;
+   
+}
 
 .accordion-header{
     background-color: rgb(236, 236, 236);
@@ -26,7 +36,8 @@
     background-color: rgba(3, 3, 3, 0.719);
     border-radius: 2px;;
     padding: 10px;
-    margin: 5px;
+    margin: 5px 5px 10px 5px;
+   
     
 }
 
@@ -39,4 +50,6 @@ h4{
 .tableHeading{
     margin-bottom: 0;
     font-size: 15px;
+    color: white;
 }
+

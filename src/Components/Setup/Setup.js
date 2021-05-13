@@ -3,11 +3,16 @@ import Form from 'react-bootstrap/Form'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Button from 'react-bootstrap/Button'
 import './Setup.css'
+import gulf from '../../Pictures/gulf.jpg'
 
 const Setup = () => {
 
     return (
         <div>
+             <div id='bg'>
+                <img src= {gulf} alt="" />
+            </div>
+            
             <div className = 'setup'>
             <h4>Setup Tips</h4>
             <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -511,10 +516,12 @@ const Setup = () => {
                 </div>
             </div>
         </div>
+
+
         <div className = 'setup'>
             <h4> Tire Pressures</h4>
             <p className = 'tableHeading'>Optimal Tire Pressure Windows</p>
-            <table class="table table-info">
+            <table class="table table-info table-sm">
                 <thead>
                     <tr>
                     <th scope="col">Category</th>
@@ -543,7 +550,7 @@ const Setup = () => {
             </table>
 
             <p className = 'tableHeading'>Wet Conditions</p>
-            <table class="table table-info">
+            <table class="table table-info table-sm">
                 <thead>
                     <tr>
                         <th scope="col">Compound</th>
@@ -564,10 +571,11 @@ const Setup = () => {
                     
                 </tbody>
             </table>
+        </div>
 
-        </div>
-        </div>
-        
+
+    </div>
+       
     )
 
 }
